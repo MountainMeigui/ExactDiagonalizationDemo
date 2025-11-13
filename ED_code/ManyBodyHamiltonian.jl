@@ -1,6 +1,6 @@
 using SparseArrays
 
-include("LLLInteractionAndConfinementHamiltonians.jl")
+# include("LLLInteractionAndConfinementHamiltonians.jl")
 include("basisCreation.jl")
 
 """
