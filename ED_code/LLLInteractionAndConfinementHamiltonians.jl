@@ -25,31 +25,49 @@ function interactionHamiltonian(mMin::Int64, mMax::Int64, interaction_strength::
     Hint = zeros(Float64, numOrbitals, numOrbitals, numOrbitals, numOrbitals)
     # println("mMin: $mMin, mMax: $mMax, numOrbitals: $numOrbitals")
     for m1 in mMin:mMax
-        for m2 in mMin:mMax
-            for m3 in mMin:mMax
-                for m4 in mMin:mMax
-                    index1 = m1 - mMin + 1
-                    index2 = m2 - mMin + 1
-                    index3 = m3 - mMin + 1
-                    index4 = m4 - mMin + 1
+        for m2 in m1+1:mMax
+            # find all pairs (m3,m4) such that m3+m4 = m1+m2
+            pairsM3M4 = find_unique_m_pairs(m1 + m2, mMin, mMax)
+            for (m3, m4) in pairsM3M4
+                index1 = m1 - mMin + 1
+                index2 = m2 - mMin + 1
+                index3 = m3 - mMin + 1
+                index4 = m4 - mMin + 1
 
-                    if m1 + m2 == m3 + m4
-                        matrixElement = overlapWithCOMAndRelativeCoordinateStates(m1, m2, m1 + m2 - 1, 1) *
-                                        overlapWithCOMAndRelativeCoordinateStates(m3, m4, m3 + m4 - 1, 1)
-                        Hint[index1, index2, index3, index4] = matrixElement * interaction_strength
-                    end
-                end
+                matrixElement = overlapWithCOMAndRelativeCoordinateStates(m1, m2, m1 + m2 - 1, 1) *
+                                overlapWithCOMAndRelativeCoordinateStates(m3, m4, m3 + m4 - 1, 1)
+                Hint[index1, index2, index3, index4] = -matrixElement * interaction_strength
+                Hint[index1, index2, index4, index3] = matrixElement * interaction_strength
+                Hint[index2, index1, index3, index4] = matrixElement * interaction_strength
+                Hint[index2, index1, index4, index3] = -matrixElement * interaction_strength
             end
         end
     end
+
     return Hint
+end
+
+function find_unique_m_pairs(totalM::Int, mMin::Int, mMax::Int)
+    pairs = Tuple{Int,Int}[]
+
+    # Iterate over possible values of m3
+    for m3 in mMin:mMax
+        m4 = totalM - m3
+
+        # Check if m4 is within bounds and m3 < m4 (avoid duplicates)
+        if mMin <= m4 <= mMax && m3 < m4
+            push!(pairs, (m3, m4))
+        end
+    end
+
+    return pairs
 end
 
 function overlapWithCOMAndRelativeCoordinateStates(m1::Int64, m2::Int64, M::Int64, mRel::Int64)
     if m1 + m2 != M + mRel
         return 0.0
     end
-    
+
     overlap = 0.0
 
     for l in 0:mRel
@@ -59,9 +77,9 @@ function overlapWithCOMAndRelativeCoordinateStates(m1::Int64, m2::Int64, M::Int6
 
     # Compute normalization factor using BigInt to avoid integer overflow
     # Then convert back to Float64 for the final calculation
-    norm_squared = Float64(factorial(big(mRel)) * factorial(big(M))) / 
+    norm_squared = Float64(factorial(big(mRel)) * factorial(big(M))) /
                    Float64(big(2)^(m1 + m2 + 2) * factorial(big(m1)) * factorial(big(m2)))
-    
+
     normalization = sqrt(norm_squared)
     overlap = overlap * (1 / 2) * normalization
     return overlap
