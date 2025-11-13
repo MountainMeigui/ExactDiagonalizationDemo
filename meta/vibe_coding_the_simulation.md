@@ -26,3 +26,9 @@ Can you add a Project.toml file with all the packages needed for this project?
 
 didn't you forget arpack?
 
+## Improving the spectrum plot visualization
+
+amazing! now help me make the plot a little nicer: make it a scatter plot instead of a line and make the markers into line shapes
+
+Awesome! now make all the lines the same color, and make the plot size=(1000,1000), and enlarge the fonts even more
+
