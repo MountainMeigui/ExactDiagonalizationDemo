@@ -81,7 +81,7 @@ p = compute_spectrum_vs_M(0, 8, 3, 1.0, 0.1, n_states=8)
 display(p)
 
 # Save the plot
-save_spectrum_plot(1, 9, 3, 1.0, 0.1, filename="spectrum.png", n_states=8)
+save_spectrum_plot(6, 31, 6, 1.0, 10^-6, filename="spectrum.png", n_states=100)
 ```
 
 ## Development Process
