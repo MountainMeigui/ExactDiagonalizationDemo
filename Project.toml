@@ -1,5 +1,4 @@
 name = "ExactDiagonalizationDemo"
-uuid = "12345678-1234-5678-1234-567812345678"
 authors = ["Vered Cohen"]
 version = "0.1.0"
 
@@ -13,5 +12,6 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 julia = "1.6"
+Arpack = "0.5"
 Plots = "1.0"
 SpecialFunctions = "2.0"
