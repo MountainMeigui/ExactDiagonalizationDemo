@@ -32,3 +32,48 @@ amazing! now help me make the plot a little nicer: make it a scatter plot instea
 
 Awesome! now make all the lines the same color, and make the plot size=(1000,1000), and enlarge the fonts even more
 
+## Setting up GitHub repository
+
+Now please help me upload this beautiful project to a github repository?
+
+**Answer:** To upload your project to GitHub, follow these steps:
+
+**1. Stage and commit your changes:**
+```powershell
+cd "c:\Users\Vered\Dropbox\00 I'll be the doctor\ExactDiagonalizationDemo"
+git add .
+git commit -m "Add spectrum analysis, fix numerical bugs, improve visualization"
+```
+
+**2. Create a new repository on GitHub:**
+- Go to https://github.com/new
+- Repository name: `ExactDiagonalizationDemo` (or whatever you prefer)
+- Choose Public or Private
+- **Don't** initialize with README (you already have files)
+- Click "Create repository"
+
+**3. Link your local repo to GitHub and push:**
+Replace `YOUR_USERNAME` with your GitHub username:
+```powershell
+git remote add origin https://github.com/YOUR_USERNAME/ExactDiagonalizationDemo.git
+git branch -M main
+git push -u origin main
+```
+
+how to undo remote setting
+
+**Answer:** To remove the remote:
+```powershell
+git remote remove origin
+```
+
+To verify it's removed:
+```powershell
+git remote -v
+```
+
+To change the URL instead of removing:
+```powershell
+git remote set-url origin https://github.com/YOUR_USERNAME/NEW_REPO_NAME.git
+```
+
