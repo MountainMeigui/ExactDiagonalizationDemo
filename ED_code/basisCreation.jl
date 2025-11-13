@@ -83,9 +83,10 @@ function state_to_string(state::UInt, m_min::Int, m_max::Int)
     return "|" * join(occupations, "") * "⟩"
 end
 
-# Example usage:
+# #Example usage:
 # basis = FermionicBasis(3, 6, 0, 5)  # 3 particles, total M=6, m from 0 to 5
 # println("Basis dimension: ", basis.dim)
 # for (i, state) in enumerate(basis.states)
 #     println("State $i: ", state_to_string(state, basis.m_min, basis.m_max))
 # end
+
