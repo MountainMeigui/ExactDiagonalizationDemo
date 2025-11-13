@@ -77,3 +77,27 @@ To change the URL instead of removing:
 git remote set-url origin https://github.com/YOUR_USERNAME/NEW_REPO_NAME.git
 ```
 
+## Refactoring to Standard Julia Package Structure
+
+**Question:** How should I structure this as a standard Julia project?
+
+**Answer:** The recommended structure follows Julia conventions:
+
+1. **Create a module file**: Move all code into `src/ExactDiagonalizationDemo.jl` wrapped in a `module` block
+2. **Use `using` instead of `include`**: The main script should use `using ExactDiagonalizationDemo` instead of including files directly
+3. **Place run.jl in root**: The runnable script belongs at the top level next to Project.toml
+4. **Export key functions**: Use `export` statements to make functions accessible
+
+**Final structure:**
+```
+ExactDiagonalizationDemo/
+├── src/
+│   └── ExactDiagonalizationDemo.jl  # All code in a module
+├── Project.toml
+├── Manifest.toml
+├── README.md
+└── run.jl                          # Runnable example script
+```
+
+This makes the code a reusable library while keeping a simple entry point for users.
+

@@ -18,17 +18,16 @@ This project implements an exact diagonalization (ED) simulation for studying ma
 
 ```
 ExactDiagonalizationDemo/
-├── ED_code/
-│   ├── basisCreation.jl                          # Fermionic basis generation
-│   ├── ManyBodyHamiltonian.jl                    # Many-body operators
-│   ├── LLLInteractionAndConfinementHamiltonians.jl  # Single-particle Hamiltonians
-│   ├── spectrum_analysis.jl                      # Spectrum computation and plotting
-│   └── test_fermionic_operators.jl              # Unit tests
+├── src/
+│   └── ExactDiagonalizationDemo.jl              # Main module with all functionality
+├── ED_code/                                     # Legacy code directory (deprecated)
 ├── theory_and_text_files/
 │   └── theoretical_introduction.tex             # LaTeX documentation
 ├── meta/
 │   └── vibe_coding_the_simulation.md           # Development prompts log
-└── Project.toml                                  # Julia dependencies
+├── Project.toml                                 # Julia dependencies
+├── Manifest.toml                                # Exact dependency versions
+└── run.jl                                       # Runnable script example
 ```
 
 ## Key Features
@@ -73,7 +72,15 @@ Pkg.instantiate()
 ### Running the Simulation
 
 ```julia
-include("ED_code/spectrum_analysis.jl")
+julia run.jl
+```
+
+Or interactively:
+
+```julia
+using Pkg
+Pkg.activate(".")
+using ExactDiagonalizationDemo
 
 # Compute spectrum for 3 particles, m ∈ [0,8]
 # with interaction strength 1.0 and confinement strength 0.1
