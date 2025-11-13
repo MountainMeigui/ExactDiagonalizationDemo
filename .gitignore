@@ -13,7 +13,6 @@
 *.nav
 *.snm
 *.vrb
-*.pdf
 
 # Build directory
 build/
