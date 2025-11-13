@@ -159,14 +159,14 @@ end
 # p = compute_spectrum_vs_M(0, 8, 3, 1.0, 0.1, n_states=8)
 # p = compute_spectrum_vs_M(1, 8, 3, 1.0, 0.1, n_states=8)
 N = 6
-mMin = 4
-# mMax = mMin + 3*(N-1) +1 +3
-mMax = mMin + 3*(N-1) +1 +10
+mMin = 6
+mMax = mMin + 3*(N-1) +1 +3
+# mMax = mMin + 3*(N-1) +1 +10
 interaction_strength = 1.0
-potential_strength = 0.1
-# potential_strength = 0.01
-nStates = 200
-filename = "spectrum_N$(N)_Mmin$(mMin)_Mmax$(mMax)_Vint$(interaction_strength)_Vconf$(potential_strength).png"
+# potential_strength = 0.1
+potential_strength = 0.01
+nStates = 1000
+filename = "spectrum_N_$(N)_Mmin_$(mMin)_Mmax_$(mMax)_Vint_$(interaction_strength)_Vconf_$(potential_strength).png"
 # p = compute_spectrum_vs_M(mMin, mMax, N, interaction_strength, potential_strength, n_states=nStates)
 p = save_spectrum_plot(mMin, mMax, N, interaction_strength, potential_strength, n_states=nStates, filename=filename)
 display(p)

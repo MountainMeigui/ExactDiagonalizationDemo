@@ -23,7 +23,7 @@ function interactionHamiltonian(mMin::Int64, mMax::Int64, interaction_strength::
     #This is a specific when only V_1 is non-zero interaction Hamiltonian for demonstration purposes.
     numOrbitals = mMax - mMin + 1
     Hint = zeros(Float64, numOrbitals, numOrbitals, numOrbitals, numOrbitals)
-    println("mMin: $mMin, mMax: $mMax, numOrbitals: $numOrbitals")
+    # println("mMin: $mMin, mMax: $mMax, numOrbitals: $numOrbitals")
     for m1 in mMin:mMax
         for m2 in mMin:mMax
             for m3 in mMin:mMax
@@ -61,15 +61,6 @@ function overlapWithCOMAndRelativeCoordinateStates(m1::Int64, m2::Int64, M::Int6
     # Then convert back to Float64 for the final calculation
     norm_squared = Float64(factorial(big(mRel)) * factorial(big(M))) / 
                    Float64(big(2)^(m1 + m2 + 2) * factorial(big(m1)) * factorial(big(m2)))
-    
-    # # Handle numerical precision issues - if slightly negative due to roundoff, set to zero
-    # if norm_squared < 0
-    #     if norm_squared > -1e-10  # Small negative due to roundoff
-    #         norm_squared = 0.0
-    #     else
-    #         error("Normalization factor is significantly negative: $norm_squared for m1=$m1, m2=$m2, M=$M, mRel=$mRel")
-    #     end
-    # end
     
     normalization = sqrt(norm_squared)
     overlap = overlap * (1 / 2) * normalization
