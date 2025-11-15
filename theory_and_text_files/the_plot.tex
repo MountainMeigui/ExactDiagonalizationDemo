@@ -1,0 +1,130 @@
+\documentclass[14pt,a4paper]{extarticle}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{setspace}
+\onehalfspacing
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% Title and authors
+\title{A student's struggle with many-body electron interactions}
+\author{Vered Cohen}
+% \date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    We study a system of interacting spin-polarized electrons confined to an annulus in a
+strong magnetic field. We need the help of our computer to diagonalize the Hamiltonian.
+We ask Claude to help us write the code.
+Then we ask him to help us edit our paper and create pretty figures.
+\end{abstract}
+
+\section{The many-body Hamiltonian in question}
+\label{sec:many_body_hamiltonian}
+
+A lot of sweat and tears must first go into translating the physical system into a matrix that our computer can understand.
+
+The full Hamiltonian of our system is:
+\begin{align*}
+H &= \sum_{m,n} \braket{m|H_\mathrm{confining\ potential}|n} c_m^\dagger c_n \\
+&\quad + \frac{1}{2} \sum_{m_1, m_2, m_3, m_4} \braket{m_1, m_2|H_\mathrm{int}|m_3, m_4} c_{m_1}^\dagger c_{m_2}^\dagger c_{m_4} c_{m_3}
+\end{align*}
+
+Where $c_m^\dagger$ and $c_m$ are the creation and annihilation operators for an electron in the
+LLL eigenstate with angular momentum $\hbar m$ (or as far as the computer is concerned, just a set of operators with anti-commutation relations).
+
+\vspace{1em}
+\underline{The confining potential term matrix elements are given by:}
+
+\begin{align*}
+    \braket{m|H_\mathrm{confining\ potential}|n} &= \delta_{m-n}V\Bigg[ \\
+    &\left(2\left(m+1\right)-x_{0}^{2}\right) \frac{\left[\Gamma\left(m+1,\frac{x_{0}^{2}}{2}\right)-\gamma\left(m+1,\frac{x_{0}^{2}}{2}\right)\right]}{\Gamma\left(m+1\right)} \\
+    &\quad +4\frac{x_{0}^{2m+2}}{m!2^{m+1}}e^{-\frac{x_{0}^{2}}{2}}\Bigg]
+\end{align*}
+
+where $\Gamma(a,x)$ and $\gamma(a,x)$ are the upper and lower incomplete gamma functions respectively:
+\begin{align*}
+\Gamma(a,x) &= \int_x^\infty t^{a-1} e^{-t} dt \\
+\gamma(a,x) &= \int_0^x t^{a-1} e^{-t} dt, 
+\end{align*}
+
+$\Gamma(a)$ is the standard gamma function:
+\[
+\Gamma(a) = \int_0^\infty t^{a-1} e^{-t} dt,
+\]
+
+and $V, x_0$ are the confining potential strength and the normalized radius of the annulus describing the geometry of our system.
+
+\vspace{1em}
+\underline{The interaction term matrix elements are given by:}
+\begin{align*}
+\braket{m_{1},m_{2}|H_{int}|m_{3},m_{4}} &= \delta_{m_{1}+m_{2}-m_{3}-m_{4}}V_{1} \\
+&\quad \times \braket{m_{1},m_{2}|m_{1}+m_{2}-1,1} \\
+&\quad \times \braket{m_{1}+m_{2}-1,1|m_{3},m_{4}}    
+\end{align*}
+% \begin{align*}
+% &\braket{m_{1},m_{2}|H_{int}|m_{3},m_{4}}= \\
+% &\delta_{m_{1}+m_{2}-m_{3}-m_{4}}\sum_{m=0}^{m_{1}+m_{2}}V_{m}\braket{m_{1},m_{2}|m_{1}+m_{2}-m,m}\braket{m_{1}+m_{2}-m,m|m_{3},m_{4}}    
+% \end{align*}
+Where $\ket{m_{1}+m_{2}-m,m}$ is a state with well defined COM angular momentum $M=m_{1}+m_{2}-m$ and relative angular momentum $m$, and $V_1$ is a parameter describing the strength of the interaction.
+
+Or, as far as the computer needs to know, the overlap amplitudes $\braket{m_{1},m_{2}|M,m}$ are just given by:
+\begin{align*}
+\braket{m_{1},m_{2}|M,m}&=\delta_{m_{1}+m_{2}-M-m}\frac{\alpha\left(m_{1},m_{2},m\right)}{2\sqrt{2^{m_{1}+m_{2}+2}m_{1}!m_{2}!}} \\
+\alpha\left(m_{1},m_{2},m\right)&=\sqrt{m!\left(m_{1}+m_{2}-m\right)!} \\
+&\quad \times \sum_{l=0}^{m}\left(-1\right)^{l} \left( \binom{m_1}{m-l} \binom{m_2}{l} - \binom{m_2}{m-l} \binom{m_1}{l} \right).
+\end{align*}
+
+\section{The many-body basis we choose}
+\label{many_body_basis}
+To represent the many-body Hamiltonian as a matrix, we need to choose a basis for the many-body Hilbert space.
+
+The single electron states in our Hilbert space are the LLL eigenstates with angular momenta $\hbar m$, represented with creation operators $c_m^\dagger$, where $m$ ranges from $m_\mathrm{min}$ to $m_\mathrm{max}$ (this is a good description for our case since we want to study electrons confined to an annulus, and the angular momentum resolved states are localized along rings of radii $r_m = \sqrt{2m}l_B$).
+The many-body basis states are constructed as Slater determinants of these single electron states, which can be represented in second quantization as:
+\begin{align*}
+\ket{n_{m_\mathrm{min}}, n_{m_\mathrm{min}+1}, \ldots, n_{m_\mathrm{max}}} &= (c_{m_\mathrm{max}}^\dagger)^{n_{m_\mathrm{max}}} \ldots \\
+&\quad \times (c_{m_\mathrm{min}+1}^\dagger)^{n_{m_\mathrm{min}+1}} (c_{m_\mathrm{min}}^\dagger)^{n_{m_\mathrm{min}}} \ket{0}
+\end{align*}
+where $n_m$ is either 0 or 1, indicating whether the state with angular momentum $\hbar m$ is occupied or not, and $\ket{0}$ is the vacuum state.
+
+We work in a Hilbert space with a fixed number of electrons $N$, so we only consider basis states where the sum of the occupation numbers equals $N$:
+\[\sum_{m=m_\mathrm{min}}^{m_\mathrm{max}} n_m = N.\]
+
+In addition since we are studying a system with a fixed total angular momentum $L$, we only consider basis states where the total angular momentum equals $L$:
+\[\sum_{m=m_\mathrm{min}}^{m_\mathrm{max}} m \, n_m = L.\]
+
+(This truncates the size of our Hilbert space even further, which is important for computational feasibility.)
+
+Now that we have defined our many-body basis, we can construct the Hamiltonian matrix by calculating the matrix elements $\braket{\alpha|H|\beta}$, where $\ket{\alpha}$ and $\ket{\beta}$ are basis states in our chosen many-body Hilbert space.
+
+considering the anti-commutation relations of the creation and annihilation operators:
+\[\{c_m, c_n^\dagger\} = \delta_{mn}, \quad \{c_m, c_n\} = \{c_m^\dagger, c_n^\dagger\} = 0.\]
+we have a complete rule book to construct the many-body Hamiltonian matrix. It is just a matter of carefully applying these rules to evaluate the matrix elements. 
+This is where Claude's help can save us a lot of time and effort.
+
+% \bibliographystyle{plain}
+% \bibliography{references}
+
+\end{document}
