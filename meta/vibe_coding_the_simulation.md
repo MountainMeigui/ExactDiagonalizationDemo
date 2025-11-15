@@ -77,3 +77,14 @@ To change the URL instead of removing:
 git remote set-url origin https://github.com/YOUR_USERNAME/NEW_REPO_NAME.git
 ```
 
+## Polishing the Setup Guide
+
+Hi, can you complete this document and make it really pretty and fun to read? Before you rewrite it, can you save a copy of it in its current state to show how awesome the changes you make are? Then, can you add this prompt with the appropriate title to vibe_coding_the_simulation.md?
+
+**What happened:** I had a bare-bones setup guide (`to_do_list_for_coding.md`) with just bullet points and placeholder notes. I asked Claude to:
+1. Save the original as `to_do_list_for_coding_ORIGINAL.md` for comparison
+2. Transform it into a comprehensive, engaging guide with emojis, step-by-step instructions, links, and personality
+3. Document this prompt in the vibe coding log
+
+**Result:** The setup guide went from a skeleton outline to a full-fledged tutorial covering Git, VS Code, Julia, GitHub Student Pack, TeX Live, and essential extensions—complete with installation commands, verification steps, pro tips, and encouragement for impatient students waiting for TeX to install. 🚀
+
