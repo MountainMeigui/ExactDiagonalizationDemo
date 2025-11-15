@@ -126,7 +126,7 @@ function compute_spectrum_vs_M(mMin::Int, mMax::Int, N::Int,
         end
     end
 
-    ylims!(0,0.0001)
+    ylims!(0,0.001)
 
     println("="^60)
     println("Spectrum computation complete!")
@@ -166,7 +166,7 @@ mMin = 6
 mMax = mMin + 3*(N-1) +1 +10
 interaction_strength = 1.0
 # potential_strength = 0.1
-potential_strength = 0.000001
+potential_strength = 0.0001
 nStates = 100
 filename = "spectrum_N_$(N)_Mmin_$(mMin)_Mmax_$(mMax)_Vint_$(interaction_strength)_Vconf_$(potential_strength).png"
 # p = compute_spectrum_vs_M(mMin, mMax, N, interaction_strength, potential_strength, n_states=nStates)
