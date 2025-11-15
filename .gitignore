@@ -17,6 +17,9 @@
 # Build directory
 build/
 
+# Figure files
+figures/
+
 # OS files
 .DS_Store
 Thumbs.db
